@@ -10,39 +10,44 @@ import {
     Container,
     Typography,
 } from '@mui/material';
-// import { getItemfromDB, setItemInDB } from '../utils/dbConfigure';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-// import { useContext } from 'react';
-// import { userContext } from '../utils/UserContext';
 import { setAdminInDB, setItemInDB } from '../utils/dbConfigure';
+import { useFetch } from '../utils/useFetch';
+import { useState } from 'react';
 
 const Register = () => {
 
-    // const userArr = useContext(userContext)
+    // const users = useContext(userContext)
+    const { users } = useFetch()
+    const [loading, setloading] = useState(false)
     const navigate = useNavigate()
     const { handleSubmit, register, formState: { errors } } = useForm<RegisterFormInputs>();
 
     const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
-        try {
-            // console.log(getItemfromDB('Some one from register',data.roleType))
-
-            if(data.roleType == 'user'){
-                setItemInDB({ userKey: data.roleType, userValue: data })  // for user
-                // const userArr: RegisterFormInputs[] = await getItemfromDB(data.roleType)
-                // console.log(userArr)
-                navigate('/login')
+        setloading(true)
+        setTimeout(() => {
+            setloading(false)
+            console.log(users)
+            if (data.roleType == 'user') {  // for user
+                if (users && users.length < 5) {
+                    console.log(data)
+                    setItemInDB({ userKey: data.roleType, userValue: data, userArr: users })
+                    console.log(users)
+                    navigate('/login')
+                }
+                else {
+                    setItemInDB({ userKey: data.roleType, userValue: data, userArr: users })
+                    navigate('/login')
+                }
             }
             else { // for admin
                 setAdminInDB({ userKey: data.roleType, userValue: data })
-                navigate('/home')
-            }  
-        } catch (error: any) {
-            toast.error(error)
-        }
+                navigate('/login')
+            }
+        }, 2000)
     }
 
-    return (
+    return loading ? (<h3>Loading...</h3>) : (
         <Container maxWidth="sm">
             <Typography variant="h4" align="center" gutterBottom mt={3}>
                 Register Page

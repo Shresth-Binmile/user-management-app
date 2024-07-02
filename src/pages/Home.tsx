@@ -1,26 +1,24 @@
 import { List, ListItem, ListItemText, Button, Container, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { userContext } from '../utils/UserContext';
-import { useContext } from 'react';
-// import { RegisterFormInputs } from '../interfaces/RegisterFormInputs';
-// import { useEffect, useState } from 'react';
-// import { getItemfromDB } from '../utils/dbConfigure';
+import { useNavigate } from 'react-router-dom';
+import { useFetch } from '../utils/useFetch';
+import { useState } from 'react';
+import { signOutFromDB } from '../utils/dbConfigure';
 
 const Home = () => {
 
-  const users = useContext(userContext)
+  const { users, currentUser } = useFetch()
+  const [loading, setloading] = useState(false)
+  const navigate = useNavigate()
 
-  // const [users, setUsers] = useState<RegisterFormInputs[]>([])
+  console.log(currentUser)
 
-  // useEffect(()=>{
-  //   const getUser = async() => {
-  //     const userData = await getItemfromDB('user')
-  //     setUsers(userData)
-  //   }
-  //   getUser()
-  // }, [])
+  if (currentUser?.roleType == 'user' || currentUser == null) {
+    return (
+      <h1>Access Denied, Try signing in first.</h1>
+    )
+  }
 
-  console.log('user',users)
+  console.log('user', users)
   if (users.length < 1) {
     return (
       <Container maxWidth="sm">
@@ -29,8 +27,18 @@ const Home = () => {
     );
   }
 
-  return (
+  const handleSubmit = (index: number) => {
+    setloading(true)
+    setTimeout(() => {
+      setloading(false)
+      navigate(`/profile/${index}`)
+    }, 2000)
+  }
+
+  return loading ? (<h3>Loading...</h3>) : (
     // <userContext.Provider value={users}>
+    <Container>
+      <Typography textAlign={'center'} variant='h3'>User Lists</Typography>
       <List>
         {users.map((user, index) => (
           <ListItem key={index}>
@@ -39,16 +47,30 @@ const Home = () => {
               secondary={`Role: ${user.roleType}, Name: ${user.name}, Address: ${user.address}, Phone: ${user.phoneNumber}`}
             />
             <Button
-              component={Link}
-              to={`/profile/${index}`}
+              // component={Link}
+              // to={`/profile/${index}`}
               variant="contained"
               color="primary"
+              onClick={() => handleSubmit(index)}
             >
               Edit Profile
             </Button>
           </ListItem>
         ))}
       </List>
+      <Button
+        // component={Link}
+        // to={`/profile/${index}`}
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          signOutFromDB('current-user')
+          navigate('/login')
+        }}
+      >
+        Logout
+      </Button>
+    </Container>
     // </userContext.Provider>
   );
 };

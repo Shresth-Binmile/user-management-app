@@ -4,21 +4,11 @@ import Login from "../pages/Login"
 import Register from "../pages/Register"
 import Profile from "../pages/Profile"
 import { userContext } from "../utils/UserContext"
-import { useEffect, useState } from "react"
-import { RegisterFormInputs } from "../interfaces/RegisterFormInputs"
-import { getItemfromDB } from "../utils/dbConfigure"
+import { useFetch } from "../utils/useFetch"
 
 const AllRoutes = () => {
 
-    const [users, setUsers] = useState<RegisterFormInputs[]>([])
-
-    useEffect(()=>{
-      const getUser = async() => {
-        const userData = await getItemfromDB('user')
-        setUsers(userData)
-      }
-      getUser()
-    }, [])
+    const {users} = useFetch()
 
     return (
         <userContext.Provider value={users}>

@@ -1,39 +1,60 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Container, Typography } from '@mui/material';
 import { LoginFormInputs } from '../interfaces/LoginFormInputs';
-// import { getItemfromDB } from '../utils/dbConfigure';
-// import { RegisterFormInputs } from '../interfaces/RegisterFormInputs';
+import { useFetch } from '../utils/useFetch';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { userContext } from '../utils/UserContext';
+import { setCurrentUser } from '../utils/dbConfigure';
+import { useState } from 'react';
 
 const Login = () => {
 
-  const userArr = useContext(userContext)
+  const { users, admin } = useFetch()
+  const [loading, setloading] = useState(false)
   const navigate = useNavigate()
   const { handleSubmit, register, formState: { errors } } = useForm<LoginFormInputs>();
-  // let value: RegisterFormInputs[]
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = async(data) => {
-    try {
-      // const userArr: RegisterFormInputs[] = await getItemfromDB(data.roleType)
-      // value = userArr
-      let userIndx;
-      const user = userArr.filter((users, index)=>{
-        userIndx = index
-        return users.username == data.username && users.password == data.password
-      })
-
-      // console.log('success',user)
-
-      if(user) navigate(`/profile/${userIndx}`)
-      
-    } catch (error) {
-      console.log(error)
-    }
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    setloading(true)
+    setTimeout(async()=>{
+      setloading(false)
+      if (data.roleType == 'user') {
+        console.log('userArr', users)
+        let userIndx
+        for (let i = 0; i < users.length; i++) {
+          if (users[i].username == data.username && users[i].password == data.password) {
+            userIndx = i
+            break
+          }
+        }
+        // console.log('user', userData)
+        console.log('indx', userIndx)
+        if (userIndx! >= 0 && userIndx! <= 4) {
+          await setCurrentUser(users[userIndx!])
+          console.log('Current User', users[userIndx!])
+          navigate(`/profile/${userIndx}`)
+        }
+        else{
+          console.log('user not found')
+          navigate('/register')
+        }
+  
+      }
+      else {
+        if (data.username == admin?.username && data.password == admin.password) {
+          console.log('admin hai')
+          await setCurrentUser(admin)
+          console.log('Current User', admin)
+          navigate('/home')
+        }
+        else{
+          console.log('user not found')
+          navigate('/register')
+        }
+      }
+    }, 2000)
   };
 
-  return (
+  return loading ? (<h3>Loading...</h3>) : (
     <Container maxWidth={'sm'}>
       <Typography variant="h4" align="center" gutterBottom mt={3}>
         Login Page
