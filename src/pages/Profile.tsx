@@ -2,9 +2,11 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetch } from '../utils/useFetch';
 import { Controller, useForm } from 'react-hook-form';
+// import { FormInput } from '../interfaces/FormInput';
+// import { signOutFromDB } from '../utils/dbConfigure';
+// import { useState } from 'react';
 import { FormInput } from '../interfaces/FormInput';
 import { signOutFromDB } from '../utils/dbConfigure';
-
 
 const Profile = () => {
 
@@ -12,15 +14,26 @@ const Profile = () => {
   const navigate = useNavigate()
   const params = useParams();
   const userId: number = Number(params.userId!)
-  console.log(userId)
-  const { control, handleSubmit } = useForm<FormInput>({ defaultValues: users[userId] });
 
-  const onSubmit = (data:any) => {
-    console.log(data)
-  }
+  const { control, handleSubmit } = useForm<FormInput>({
+    defaultValues: {
+      username: currentUser?.username,
+      name: currentUser?.name,
+      roleType: currentUser?.roleType,
+      address: currentUser?.address,
+      phoneNumber: currentUser?.phoneNumber,
+    },
+  });
+
+  // const [isEditing, setIsEditing] = useState(false);
+
+  const onSubmit = (data: FormInput) => {
+    console.log('formdata: ', data);
+    // setIsEditing(false);
+  };
 
 
-  console.log('user', users)
+  // console.log('user', users)
   if (userId >= users.length) {
     return (
       <Container maxWidth="sm">
@@ -35,11 +48,11 @@ const Profile = () => {
     )
   }
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h3" textAlign={'center'} gutterBottom>
-        Profile
+    <Box sx={{ maxWidth: 400, margin: 'auto' }}>
+      <Typography variant="h4" gutterBottom>
+        User Profile
       </Typography>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="body1">Username</Typography>
         <Controller
           name="username"
@@ -47,26 +60,14 @@ const Profile = () => {
           render={({ field }) => (
             <TextField
               {...field}
-              label={`${users[userId].username}`}
               fullWidth
-              variant="outlined"
               margin="normal"
-              disabled // username should not be editable
-            />
-          )}
-        />
-        <Typography variant="body1">Role Type</Typography>
-        <Controller
-          name="roleType"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label={`${users[userId].roleType}`}
-              fullWidth
-              variant="outlined"
-              margin="normal"
-              disabled // roleType should not be editable
+              value={currentUser.username}
+              // value={field.value}
+              onChange={field.onChange}
+            // InputProps={{
+            //   readOnly: !isEditing,
+            // }}
             />
           )}
         />
@@ -77,10 +78,32 @@ const Profile = () => {
           render={({ field }) => (
             <TextField
               {...field}
-              label={`${users[userId].name}`}
               fullWidth
-              variant="outlined"
               margin="normal"
+              value={currentUser.name}
+              // value={field.value}
+              onChange={field.onChange}
+            // InputProps={{
+            //   readOnly: !isEditing,
+            // }}
+            />
+          )}
+        />
+        <Typography variant="body1">Role Type</Typography>
+        <Controller
+          name="roleType"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              fullWidth
+              margin="normal"
+              value={currentUser.roleType}
+              // value={field.value}
+              onChange={field.onChange}
+              InputProps={{
+                readOnly: true,
+              }}
             />
           )}
         />
@@ -91,10 +114,14 @@ const Profile = () => {
           render={({ field }) => (
             <TextField
               {...field}
-              label={`${users[userId].address}`}
               fullWidth
-              variant="outlined"
               margin="normal"
+              value={currentUser.address}
+              // value={field.value}
+              onChange={field.onChange}
+            // InputProps={{
+            //   readOnly: !isEditing,
+            // }}
             />
           )}
         />
@@ -105,32 +132,35 @@ const Profile = () => {
           render={({ field }) => (
             <TextField
               {...field}
-              label={`${users[userId].phoneNumber}`}
               fullWidth
-              variant="outlined"
               margin="normal"
+              value={currentUser.phoneNumber}
+              // value={field.value}
+              onChange={field.onChange}
+            // InputProps={{
+            //   readOnly: !isEditing,
+            // }}
             />
           )}
         />
-        <Box mt={2} textAlign="center">
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
           <Button type="submit" variant="contained" color="primary">
             Save
           </Button>
         </Box>
-      </Box>
+      </form>
       <Button
-        // component={Link}
-        // to={`/profile/${index}`}
         variant="contained"
         color="primary"
         onClick={() => {
           signOutFromDB('current-user')
           navigate('/login')
         }}
+        sx={{ position: 'absolute', top: 5, right: 5 }}
       >
         Logout
       </Button>
-    </Container>
+    </Box>
   );
 };
 

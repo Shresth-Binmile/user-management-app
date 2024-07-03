@@ -51,3 +51,8 @@ export const signOutFromDB = async (key: string) => {
         console.error('Error deleting item:', error);
     }
 }
+
+// export const editUserDetails = async({users, userId, data}) => {
+//     await getCurrentUserDB()
+
+// }

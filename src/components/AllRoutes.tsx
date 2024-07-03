@@ -5,6 +5,7 @@ import Register from "../pages/Register"
 import Profile from "../pages/Profile"
 import { userContext } from "../utils/UserContext"
 import { useFetch } from "../utils/useFetch"
+// import Profiletry from "../pages/Profiletry"
 
 const AllRoutes = () => {
 

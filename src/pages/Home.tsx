@@ -59,14 +59,13 @@ const Home = () => {
         ))}
       </List>
       <Button
-        // component={Link}
-        // to={`/profile/${index}`}
         variant="contained"
         color="primary"
         onClick={() => {
           signOutFromDB('current-user')
           navigate('/login')
         }}
+        sx={{position: 'absolute', top: 5, right: 5}}
       >
         Logout
       </Button>
