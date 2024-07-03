@@ -16,7 +16,6 @@ const Login = () => {
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setloading(true)
     setTimeout(async()=>{
-      setloading(false)
       if (data.roleType == 'user') {
         console.log('userArr', users)
         let userIndx
@@ -51,6 +50,7 @@ const Login = () => {
           navigate('/register')
         }
       }
+      setloading(false)
     }, 2000)
   };
 

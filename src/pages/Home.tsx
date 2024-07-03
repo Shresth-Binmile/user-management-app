@@ -10,7 +10,7 @@ const Home = () => {
   const [loading, setloading] = useState(false)
   const navigate = useNavigate()
 
-  console.log(currentUser)
+  // console.log(currentUser)
 
   if (currentUser?.roleType == 'user' || currentUser == null) {
     return (
@@ -18,7 +18,7 @@ const Home = () => {
     )
   }
 
-  console.log('user', users)
+  // console.log('user', users)
   if (users.length < 1) {
     return (
       <Container maxWidth="sm">

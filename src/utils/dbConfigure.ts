@@ -52,7 +52,23 @@ export const signOutFromDB = async (key: string) => {
     }
 }
 
-// export const editUserDetails = async({users, userId, data}) => {
-//     await getCurrentUserDB()
-
-// }
+export const updateUser = async (userId:number, updatedUserData:RegisterFormInputs) => {
+    try {
+      const users:RegisterFormInputs[] = await localforage.getItem('user') || [];
+      const userIndex = users.findIndex((user, index) => index === userId);
+  
+      if (userIndex === -1) {
+        throw new Error(`User with id ${userId} not found.`);
+      }
+  
+      // Update the user object at the found index
+      users[userIndex] = { ...users[userIndex], ...updatedUserData };
+  
+      // Save the updated array back to IndexedDB
+      await localforage.setItem('user', users);
+  
+      console.log(`User with id ${userId} updated successfully.`);
+    } catch (error) {
+      console.error('Error updating user:', error);
+    }
+  };

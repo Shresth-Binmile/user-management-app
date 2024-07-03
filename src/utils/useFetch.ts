@@ -23,7 +23,7 @@ export function useFetch () {
       getUser()
       getAdmin()
       getCurrentUser()
-    }, [])
+    }, [users, admin, currentUser])
 
     return {users, setUsers, admin, setAdmin, currentUser, setCurrentUser}
 }

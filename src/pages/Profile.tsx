@@ -2,9 +2,6 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetch } from '../utils/useFetch';
 import { Controller, useForm } from 'react-hook-form';
-// import { FormInput } from '../interfaces/FormInput';
-// import { signOutFromDB } from '../utils/dbConfigure';
-// import { useState } from 'react';
 import { FormInput } from '../interfaces/FormInput';
 import { signOutFromDB } from '../utils/dbConfigure';
 
@@ -24,8 +21,6 @@ const Profile = () => {
       phoneNumber: currentUser?.phoneNumber,
     },
   });
-
-  // const [isEditing, setIsEditing] = useState(false);
 
   const onSubmit = (data: FormInput) => {
     console.log('formdata: ', data);

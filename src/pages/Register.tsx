@@ -26,7 +26,6 @@ const Register = () => {
     const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
         setloading(true)
         setTimeout(() => {
-            setloading(false)
             console.log(users)
             if (data.roleType == 'user') {  // for user
                 if (users && users.length < 5) {
@@ -44,6 +43,7 @@ const Register = () => {
                 setAdminInDB({ userKey: data.roleType, userValue: data })
                 navigate('/login')
             }
+            setloading(false)
         }, 2000)
     }
 
