@@ -49,11 +49,11 @@ const Home = () => {
             <Button
               // component={Link}
               // to={`/profile/${index}`}
-              variant="contained"
+              variant="outlined"
               color="primary"
               onClick={() => handleSubmit(index)}
             >
-              Edit Profile
+              Edit
             </Button>
           </ListItem>
         ))}
@@ -65,7 +65,8 @@ const Home = () => {
           signOutFromDB('current-user')
           navigate('/')
         }}
-        sx={{position: 'absolute', top: 5, right: 5}}
+        fullWidth
+        sx={{mt: 4}}
       >
         Logout
       </Button>

@@ -49,7 +49,7 @@ const Register = () => {
 
     return loading ? (<h3>Loading...</h3>) : (
         <Container maxWidth="sm">
-            <Typography variant="h4" align="center" gutterBottom mt={3}>
+            <Typography variant="h4" align="center" gutterBottom mt={1}>
                 Register Page
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>

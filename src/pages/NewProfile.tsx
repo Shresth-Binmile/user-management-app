@@ -84,7 +84,7 @@ const NewProfile = () => {
                                 <TableCell>{detail.label}</TableCell>
                                 <TableCell>{detail.value}</TableCell>
                                 <TableCell>
-                                    <Button variant="contained" color="primary" onClick={handleEdit}>
+                                    <Button variant="outlined" color="primary" onClick={handleEdit}>
                                         Edit
                                     </Button>
                                 </TableCell>
@@ -162,7 +162,8 @@ const NewProfile = () => {
                     signOutFromDB('current-user')
                     navigate('/')
                 }}
-                sx={{ position: 'absolute', top: 5, right: 5 }}
+                fullWidth
+                sx={{mt: 4}}
             >
                 Logout
             </Button>
