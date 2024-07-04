@@ -15,7 +15,7 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setloading(true)
-    setTimeout(async()=>{
+    setTimeout(async () => {
       if (data.roleType == 'user') {
         console.log('userArr', users)
         let userIndx
@@ -32,11 +32,11 @@ const Login = () => {
           console.log('Current User', users[userIndx!])
           navigate(`/profile/${userIndx}`)
         }
-        else{
+        else {
           console.log('user not found')
           navigate('/register')
         }
-  
+
       }
       else {
         if (data.username == admin?.username && data.password == admin.password) {
@@ -45,7 +45,7 @@ const Login = () => {
           console.log('Current User', admin)
           navigate('/home')
         }
-        else{
+        else {
           console.log('user not found')
           navigate('/register')
         }
@@ -86,11 +86,16 @@ const Login = () => {
             <MenuItem value="admin">Admin</MenuItem>
             <MenuItem value="user">User</MenuItem>
           </Select>
+          {errors.roleType && <Typography variant='h6' component={'h6'} sx={{fontSize: 12, color: 'darkred', pl: 2}}>Role Type is required</Typography>}
         </FormControl>
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 4 }}>
           Login
         </Button>
       </form>
+      <Button type="submit" variant="contained" color="primary" fullWidth
+        sx={{ mt: 1 }} onClick={() => navigate('/register')}>
+        Register
+      </Button>
     </Container>
   )
 }

@@ -32,16 +32,16 @@ const Register = () => {
                     console.log(data)
                     setItemInDB({ userKey: data.roleType, userValue: data, userArr: users })
                     console.log(users)
-                    navigate('/login')
+                    navigate('/')
                 }
                 else {
                     setItemInDB({ userKey: data.roleType, userValue: data, userArr: users })
-                    navigate('/login')
+                    navigate('/')
                 }
             }
             else { // for admin
                 setAdminInDB({ userKey: data.roleType, userValue: data })
-                navigate('/login')
+                navigate('/')
             }
             setloading(false)
         }, 2000)
@@ -80,6 +80,7 @@ const Register = () => {
                         <MenuItem value="admin">Admin</MenuItem>
                         <MenuItem value="user">User</MenuItem>
                     </Select>
+                    {errors.roleType && <Typography variant='h6' component={'h6'} sx={{fontSize: 12, color: 'darkred', pl: 2}}>Role Type is required</Typography>}
                 </FormControl>
                 <TextField
                     {...register('name', { required: 'Name is required' })}
@@ -110,6 +111,10 @@ const Register = () => {
                     Register
                 </Button>
             </form>
+            <Button type="submit" variant="contained" color="primary" fullWidth
+                sx={{ mt: 1}} onClick={()=>navigate('/')}>
+                Login
+            </Button>
         </Container>
     );
 }

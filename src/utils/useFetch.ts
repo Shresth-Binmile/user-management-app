@@ -10,15 +10,15 @@ export function useFetch () {
     useEffect(()=>{
       const getUser = async() => {
         const userData = await getItemfromDB('user')
-        setUsers(userData)
+        setUsers(userData? userData : [])
       }
       const getAdmin = async() => {
         const adminData = await getAdminDetails('admin')
-        setAdmin(adminData)
+        setAdmin(adminData!)
       }
       const getCurrentUser = async() => {
         const currentUserData = await getCurrentUserDB()
-        setCurrentUser(currentUserData)
+        setCurrentUser(currentUserData!)
       }
       getUser()
       getAdmin()

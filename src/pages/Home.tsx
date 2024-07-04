@@ -63,7 +63,7 @@ const Home = () => {
         color="primary"
         onClick={() => {
           signOutFromDB('current-user')
-          navigate('/login')
+          navigate('/')
         }}
         sx={{position: 'absolute', top: 5, right: 5}}
       >
