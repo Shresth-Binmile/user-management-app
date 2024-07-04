@@ -99,7 +99,7 @@ const Register = () => {
                     sx={{ mt: 1.5 }}
                 />
                 <TextField
-                    {...register('phoneNumber', { required: 'Phone Number is required' })}
+                    {...register('phoneNumber', { required: 'Phone Number is required', minLength: 10, maxLength: 10 })}
                     label="Phone Number"
                     fullWidth
                     error={!!errors.phoneNumber}
