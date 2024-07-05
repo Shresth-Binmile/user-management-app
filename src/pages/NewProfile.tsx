@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DialogContent, DialogActions, Dialog, DialogTitle, TextField, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography } from '@mui/material';
+import { DialogContent, DialogActions, Dialog, DialogTitle, TextField, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography, Box } from '@mui/material';
 import { useFetch } from '../utils/useFetch';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -35,10 +35,11 @@ const NewProfile = () => {
         const { name, value } = e.target;
         setEditedUser({ ...editedUser, [name]: value } as RegisterFormInputs);
     };
-    const handleSave = async () => {currentUser
+    const handleSave = async () => {
+        currentUser
         if (editedUser) {
             // await updateUser(currentuser.id, editedUser);
-            if(currentUser?.roleType == 'user') await setCurrentUser(editedUser);
+            if (currentUser?.roleType == 'user') await setCurrentUser(editedUser);
             await updateUser(userId, editedUser)
             console.log('User Edited', editedUser)
             setOpen(false);
@@ -155,18 +156,19 @@ const NewProfile = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                    signOutFromDB('current-user')
-                    navigate('/')
-                }}
-                fullWidth
-                sx={{mt: 4}}
-            >
-                Logout
-            </Button>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                        signOutFromDB('current-user')
+                        navigate('/')
+                    }}
+                    sx={{ mt: 4 }}
+                >
+                    Logout
+                </Button>
+            </Box>
         </Container>
     );
 };

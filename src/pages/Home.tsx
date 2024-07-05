@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText, Button, Container, Typography } from '@mui/material';
+import { List, ListItem, ListItemText, Button, Container, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from '../utils/useFetch';
 import { useState } from 'react';
@@ -19,13 +19,13 @@ const Home = () => {
   }
 
   // console.log('user', users)
-  if (users.length < 1) {
-    return (
-      <Container maxWidth="sm">
-        <Typography variant="h4">User not found</Typography>
-      </Container>
-    );
-  }
+  // if (users.length < 1) {
+  //   return (
+  //     <Container maxWidth="sm">
+  //       <Typography variant="h4">User not found</Typography>
+  //     </Container>
+  //   );
+  // }
 
   const handleSubmit = (index: number) => {
     setloading(true)
@@ -40,15 +40,13 @@ const Home = () => {
     <Container>
       <Typography textAlign={'center'} variant='h3'>User Lists</Typography>
       <List>
-        {users.map((user, index) => (
+        {users?.map((user, index) => (
           <ListItem key={index}>
             <ListItemText
               primary={user.username}
               secondary={`Role: ${user.roleType}, Name: ${user.name}, Address: ${user.address}, Phone: ${user.phoneNumber}`}
             />
             <Button
-              // component={Link}
-              // to={`/profile/${index}`}
               variant="outlined"
               color="primary"
               onClick={() => handleSubmit(index)}
@@ -58,18 +56,19 @@ const Home = () => {
           </ListItem>
         ))}
       </List>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          signOutFromDB('current-user')
-          navigate('/')
-        }}
-        fullWidth
-        sx={{mt: 4}}
-      >
-        Logout
-      </Button>
+      <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            signOutFromDB('current-user')
+            navigate('/')
+          }}
+          sx={{ mt: 4 }}
+        >
+          Logout
+        </Button>
+      </Box>
     </Container>
     // </userContext.Provider>
   );
